@@ -44,9 +44,12 @@ def classify_figure(image):
   '''
   ## your code
   
-  (h, w, num_c) - image.shape
-  yield 'h= '+str(h)+'/n'+str(w)+'/n'+str(num_c)
-  
+  (h, w, num_c) = image.shape
+  for height in h:
+    for width in w:
+      if img[height,width]=[0,0,0]:
+        print "yes"
+    print "/n"
   ## count number of white pixels in each row
   ## ignore first row of whites (where count goes from 0 to 1+
   ## make array of change in white pixels
