@@ -49,10 +49,11 @@ def classify_figure(image):
   (B, G, R) = cv2.split(image)
   for height in xrange(h):
     for width in xrange(w):
-      if B[height,width]==[0]:
+      if B[height,width]==[255]:
         count += 1
-    array.append(count)
-    count = 0
+    if (count != 0):
+      array.append(count)
+      count = 0
   print array
   change_row = []
   for x in xrange(len(array)):
@@ -60,20 +61,35 @@ def classify_figure(image):
       change_row.append(array[x-1]-array[x])
   print change_row
 
-  array2 = []
-  for width in xrange(w):
-    for height in xrange(h):
-      if B[height,width]==[0]:
-        count += 1
-    array2.append(count)
-    count = 0
-  print array2
-  change_col = []
-  for x in xrange(len(array)):
-    if x != 0:
-      change_col.append(array2[x-1]-array2[x])
-  print change_col
+  neg = 0
+  zed = 0
+  pos = 0
 
+  for x in xrange(len(change_row)):
+    if change_row[x] == 0:
+      zed = zed+1
+    elif change_row[x] < 0:
+      neg = neg+1
+    elif change_row[x] > 0:
+      pos = pos+1
+    else:
+      return 'unknown'
+
+  print zed
+  print pos
+  print neg
+
+  if neg == pos:
+    return 'dmd'
+  if zed > pos:
+    if zed > neg:
+      return 'rec'
+  if neg > zed:
+    if neg > pos:
+      return 'trie'
+  if pos > zed:
+    if pos > neg:
+      return 'trie'
 
 
 
@@ -82,10 +98,8 @@ def classify_figure(image):
   ## ignore first row of whites (where count goes from 0 to 1+
   ## make array of change in white pixels
   ## if change is always 0: object is rec
-  ## next create change array for columns
-  ## if change_row is of both signs (positive then negative) and change_column -
-  ## - of both signs (positive then negative): object is dmd
-  ## if change_row or change_column is all one sign: object is trie
+   ## if change_row is of both signs (positive then negative)
+  ## if change_row  is all one sign: object is trie
   pass
 
 def classify_figures_in_dir(imgdir):
