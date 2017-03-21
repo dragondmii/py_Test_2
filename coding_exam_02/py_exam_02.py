@@ -2,8 +2,8 @@
 
 #####################
 ## module: py_exam_02.py
-## Your Name
-## Your A-Number
+## Robert Epstein
+## A01092594
 #####################
 
 import cv2
@@ -15,7 +15,7 @@ import sys
 # to implement generate_filenames.
 # uncomment the import you need.
 #import re
-#import fnmatch
+import fnmatch
 
 # if you need/want to use numpy, uncomment
 # the next import
@@ -30,7 +30,9 @@ args = vars(ap.parse_args())
 # takes a file name pattern fnpat and recursively
 # generates a list of filenames that match the pattern in directory rootdir
 def generate_file_names(fnpat, rootdir):
-  # your code
+  for path, dirlist, filelist in os.walk(rootdir):
+    for file_name in fnmatch.filter(filelist, fnpat):
+      yield os.path.join(path, file_name)
   pass
                       
 def classify_figure(image):
@@ -41,6 +43,18 @@ def classify_figure(image):
   if unable to classify, return 'unknown'
   '''
   ## your code
+  
+  (h, w, num_c) - image.shape
+  yield 'h= '+str(h)+'/n'+str(w)+'/n'+str(num_c)
+  
+  ## count number of white pixels in each row
+  ## ignore first row of whites (where count goes from 0 to 1+
+  ## make array of change in white pixels
+  ## if change is always 0: object is rec
+  ## next create change array for columns
+  ## if change_row is of both signs (positive then negative) and change_column -
+  ## - of both signs (positive then negative): object is dmd
+  ## if change_row or change_column is all one sign: object is trie
   pass
 
 def classify_figures_in_dir(imgdir):
