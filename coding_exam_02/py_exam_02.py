@@ -43,13 +43,22 @@ def classify_figure(image):
   if unable to classify, return 'unknown'
   '''
   ## your code
-  
+  count = 0
+  array = []
   (h, w, num_c) = image.shape
-  for height in h:
-    for width in w:
-      if img[height,width]=[0,0,0]:
-        print "yes"
-    print "/n"
+  (B, G, R) = cv2.split(image)
+  for height in xrange(h):
+    for width in xrange(w):
+      if B[height,width]==[0]:
+        count += 1
+    array.append(count)
+    count = 0
+  print array
+  change_row = []
+  for x in xrange(len(array)):
+    if x != 0:
+      change_row.append(array[x-1]-array[x])
+  print change_row
   ## count number of white pixels in each row
   ## ignore first row of whites (where count goes from 0 to 1+
   ## make array of change in white pixels
