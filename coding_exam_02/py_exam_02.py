@@ -59,6 +59,25 @@ def classify_figure(image):
     if x != 0:
       change_row.append(array[x-1]-array[x])
   print change_row
+
+  array2 = []
+  for width in xrange(w):
+    for height in xrange(h):
+      if B[height,width]==[0]:
+        count += 1
+    array2.append(count)
+    count = 0
+  print array2
+  change_col = []
+  for x in xrange(len(array)):
+    if x != 0:
+      change_col.append(array2[x-1]-array2[x])
+  print change_col
+
+
+
+
+
   ## count number of white pixels in each row
   ## ignore first row of whites (where count goes from 0 to 1+
   ## make array of change in white pixels
